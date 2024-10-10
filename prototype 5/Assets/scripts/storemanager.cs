@@ -9,13 +9,14 @@ using Random = UnityEngine.Random;
 public class storemanager : MonoBehaviour
 {
     public CanvasGroup over,openstoretext;
-    public TMP_Text cash,swords,selltext,buytext;
+    public TMP_Text cash,swords,selltext,buytext,display_Text;
     public int cooldown, buyamount, sellamount;
     public float sellboundl, sellboundh, buyboundl, buyboundh, swordcount, money, sellp, buyp;
     public List<GameObject> storelist;
     public GameObject closeststore;
     public bool storeuiopen,openable;
     public bool cooled = true;
+    public int avgFrameRate;
     public static class God
     {
         public static storemanager SM;
@@ -72,6 +73,10 @@ public class storemanager : MonoBehaviour
             God.PC.relock();
             StartCoroutine(cd());
         }
+        float current = 0;
+        current = Time.frameCount / Time.time;
+        avgFrameRate = (int)current;
+        display_Text.text = avgFrameRate.ToString() + " FPS";
     }
 
     public IEnumerator cd()

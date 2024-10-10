@@ -12,7 +12,7 @@ public class playercont : MonoBehaviour
 {
     //comps
     public Rigidbody RB;
-    public CanvasGroup cg;
+    //public CanvasGroup cg;
     //public AudioSource AS;
     //public AudioClip AC;
     //floats
@@ -149,6 +149,7 @@ public class playercont : MonoBehaviour
                 onhelm = true;
                 cooled = false;
                 StartCoroutine(cd());
+                transform.position = helmpos.transform.position;
             }
         }
         if (onsail==true)
@@ -210,7 +211,7 @@ public class playercont : MonoBehaviour
             }
         }
 
-        if (Vector3.Distance(transform.position, anchor.transform.position) < 1f
+        /*if (Vector3.Distance(transform.position, anchor.transform.position) < 1f
             || Vector3.Distance(sailpos2.transform.position, transform.position) < 0.5f 
             || Vector3.Distance(sailpos.transform.position, transform.position) < 0.5f 
             || Vector3.Distance(helmpos.transform.position, transform.position) < 0.5f 
@@ -221,7 +222,7 @@ public class playercont : MonoBehaviour
         else
         {
             cg.alpha = 0;
-        }
+        }*/
     }
 
     public void unlock()

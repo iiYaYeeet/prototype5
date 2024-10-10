@@ -9,11 +9,11 @@ using Vector3 = UnityEngine.Vector3;
 
 public class boatcontroller : MonoBehaviour
 {
-    public GameObject sail;
+    public GameObject sail,sail2,sail3;
     public float maxspeed;
     public float rotspeed;
     public Rigidbody RB;
-    public float saildepth;
+    public float saildepth,saildepth2;
     public bool sailsdown, anchor;
     public float helmturnpos,anchordepth;
     public GameObject helm;
@@ -39,7 +39,7 @@ public class boatcontroller : MonoBehaviour
         }
         else if (anchor)
         {
-            RB.drag = 25;
+            RB.drag = 2;
         }
         else if (anchor==false)
         {
@@ -55,8 +55,13 @@ public class boatcontroller : MonoBehaviour
         }
 
         float bob = Mathf.Sin(timer) * bobAmount;
-        RB.AddTorque(new Vector3(0,90,0) * helmturnpos/1,ForceMode.Force);
+        if (anchor == false)
+        {
+            RB.AddTorque(new Vector3(0, 180, 0) * helmturnpos / 20, ForceMode.Acceleration);
+        }
         RB.AddTorque(boat.transform.right * bob, ForceMode.Force);
+        
+
         if (saildepth >= 1.5f)
         {
             saildepth = 1.5f;
@@ -64,6 +69,14 @@ public class boatcontroller : MonoBehaviour
         if (saildepth <= 0)
         {
             saildepth = 0;
+        }
+        if (saildepth2 >= 2f)
+        {
+            saildepth2 = 2f;
+        }
+        if (saildepth2 <= 0)
+        {
+            saildepth2 = 0;
         }
         if (helmturnpos <=0.05 && helmturnpos >=-0.05 && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
@@ -80,9 +93,13 @@ public class boatcontroller : MonoBehaviour
         helm.transform.localRotation = Quaternion.Euler(helmturnpos*-180,0,90);
         sail.transform.localScale =
             new Vector3(saildepth / 2 + 0.1f, sail.transform.localScale.y, saildepth / 3 + 0.1f);
-        if (sailsdown)
+        sail2.transform.localScale =
+            new Vector3(saildepth2 / 2 + 0.1f, sail2.transform.localScale.y, saildepth2 / 3 + 0.1f);
+        sail3.transform.localScale =
+            new Vector3(saildepth / 3 +0.5f, saildepth / 3 + 0.75f, saildepth / 3 + 0.2f);
+        if (sailsdown && anchor==false)
         {
-            float sails = saildepth * 6;
+            float sails = (saildepth+saildepth2) * 6;
             RB.AddForce(transform.right * sails);
         }
     }
@@ -114,11 +131,13 @@ public class boatcontroller : MonoBehaviour
             if (Input.GetKey(KeyCode.S))
             {
                 saildepth += 1.5f*Time.deltaTime;
+                saildepth2 += 2f*Time.deltaTime;
             }
 
             if (Input.GetKey(KeyCode.W))
             {
                 saildepth -= 0.65f*Time.deltaTime;
+                saildepth2 -= 0.65f*Time.deltaTime;
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
@@ -142,6 +161,7 @@ public class boatcontroller : MonoBehaviour
         {
             capstan.transform.Rotate(0,4,0,Space.Self);
             anchordepth += 0.30f;
+            RB.AddTorque(new Vector3(0,180,0) * helmturnpos/12,ForceMode.Acceleration);
             yield return new WaitForFixedUpdate();
         }
         anchor = true;
