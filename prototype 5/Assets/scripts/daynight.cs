@@ -8,7 +8,16 @@ public class daynight : MonoBehaviour
     public GameObject sun, moon, overall,boat;
     public Light sunl, moonl;
     public ParticleSystem stars;
+    public Material star;
     public float timeofday, daytimeframe;
+
+    public void Start()
+    {
+        stars.Emit(1000);
+        var color = star.color;
+        color.a = 0;
+        star.color = color;
+    }
 
     public void FixedUpdate()
     {
@@ -20,17 +29,59 @@ public class daynight : MonoBehaviour
             timeofday = 0;
         }
 
-        if (timeofday >= 4)
+        if (timeofday is >= 4f and <= 5f)
         {
-            sunl.enabled = false;
-            moonl.enabled = true;
+            StartCoroutine(sunset());
         }
-        if (timeofday >= 11)
+        if (timeofday is >= 11 and <= 12)
         {
-            sunl.enabled = true;
-            moonl.enabled = false;
+            StartCoroutine(sunrise());
         }
 
         overall.transform.position = boat.transform.position;
+    }
+
+    public IEnumerator sunset()
+    {
+        if (sunl.intensity > 0)
+        {
+            sunl.intensity -= 0.005f;
+            yield return new WaitForFixedUpdate();
+            sunl.enabled = false;
+        }
+        if (moonl.intensity < 0.5)
+        {
+            moonl.enabled = true;
+            moonl.intensity += 0.005f;
+            yield return new WaitForFixedUpdate();
+        }
+        if (star.color.a <= 1)
+        {
+            var color = star.color;
+            color.a += 0.05f;
+            star.color = color;
+        }
+    }
+    public IEnumerator sunrise()
+    {
+        if (moonl.intensity > 0)
+        {
+            moonl.intensity -= 0.005f;
+            yield return new WaitForFixedUpdate();
+            moonl.enabled = false;
+        }
+        if (sunl.intensity < 1)
+        {
+            
+            sunl.enabled = true;
+            sunl.intensity += 0.005f;
+            yield return new WaitForFixedUpdate();
+        }
+        if (star.color.a >= 0)
+        {
+            var color = star.color;
+            color.a -= 0.1f;
+            star.color = color;
+        }
     }
 }
