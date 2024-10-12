@@ -18,6 +18,7 @@ public class boatcontroller : MonoBehaviour
     public float helmturnpos,anchordepth;
     public GameObject helm;
     public GameObject capstan;
+    public GameObject indicator;
     public AudioSource helmas, sailas, boatas, anchoras;
     public AudioClip raiseanchorac, dropanchorad, wheelac, saildropad, sailraisead, backgroundac;
     public float transitionSpeed = 10f;
@@ -157,11 +158,15 @@ public class boatcontroller : MonoBehaviour
     public IEnumerator dropanchor()
     {
         anchoras.PlayOneShot(dropanchorad);
+        
+        var vector3 = indicator.transform.localPosition;
         while (anchordepth<30)
         {
             capstan.transform.Rotate(0,4,0,Space.Self);
+            vector3.y += -0.04f;
             anchordepth += 0.30f;
             RB.AddTorque(new Vector3(0,180,0) * helmturnpos/12,ForceMode.Acceleration);
+            indicator.transform.localPosition = vector3;
             yield return new WaitForFixedUpdate();
         }
         anchor = true;
@@ -169,10 +174,13 @@ public class boatcontroller : MonoBehaviour
     public IEnumerator raiseanchor()
     {
         anchoras.PlayOneShot(raiseanchorac);
+        var vector3 = indicator.transform.localPosition;
         while (anchordepth>0)
         {
             capstan.transform.Rotate(0,-2,0,Space.Self);
+            vector3.y += 0.02f;
             anchordepth -= 0.15f;
+            indicator.transform.localPosition = vector3;
             yield return new WaitForFixedUpdate();
         }
         anchor = false;
