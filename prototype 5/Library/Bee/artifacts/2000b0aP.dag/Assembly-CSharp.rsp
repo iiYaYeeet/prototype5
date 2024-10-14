@@ -294,6 +294,7 @@
 "Assets/charachter/billboard.cs"
 "Assets/scripts/billboard1.cs"
 "Assets/scripts/boatcontroller.cs"
+"Assets/scripts/constelation controller.cs"
 "Assets/scripts/daynight.cs"
 "Assets/scripts/playercont.cs"
 "Assets/scripts/rockcontroller.cs"

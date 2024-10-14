@@ -24,6 +24,7 @@ UnityEngine.AnimationCurve::Internal_Destroy
 UnityEngine.Animations.AnimationLayerMixerPlayable::SetSingleLayerOptimizationInternal
 UnityEngine.Animator::get_hasBoundPlayables
 UnityEngine.Animator::ResetTriggerString
+UnityEngine.Animator::SetBoolString
 UnityEngine.Animator::SetTriggerString
 UnityEngine.Application::get_isBatchMode
 UnityEngine.Application::get_isFocused
@@ -55,6 +56,7 @@ UnityEngine.Camera::ScreenPointToRay_Injected
 UnityEngine.Camera::ScreenToViewportPoint_Injected
 UnityEngine.Camera::SetupCurrent
 UnityEngine.Camera::WorldToScreenPoint_Injected
+UnityEngine.Camera::WorldToViewportPoint_Injected
 UnityEngine.Camera::get_backgroundColor_Injected
 UnityEngine.Camera::get_pixelRect_Injected
 UnityEngine.Camera::get_projectionMatrix_Injected
@@ -92,11 +94,13 @@ UnityEngine.Canvas::get_referencePixelsPerUnit
 UnityEngine.Canvas::get_scaleFactor
 UnityEngine.Canvas::SetExternalCanvasEnabled
 UnityEngine.Canvas::get_renderingDisplaySize_Injected
+UnityEngine.Canvas::set_additionalShaderChannels
 UnityEngine.Canvas::set_overrideSorting
 UnityEngine.Canvas::set_referencePixelsPerUnit
 UnityEngine.Canvas::set_scaleFactor
 UnityEngine.Canvas::set_sortingLayerID
 UnityEngine.Canvas::set_sortingOrder
+UnityEngine.Canvas::get_additionalShaderChannels
 UnityEngine.Canvas::get_worldCamera
 UnityEngine.Canvas::get_rootCanvas
 UnityEngine.Canvas::GetDefaultCanvasMaterial
@@ -108,6 +112,7 @@ UnityEngine.CanvasGroup::get_interactable
 UnityEngine.CanvasGroup::get_alpha
 UnityEngine.CanvasGroup::set_alpha
 UnityEngine.CanvasRenderer::get_cull
+UnityEngine.CanvasRenderer::get_cullTransparentMesh
 UnityEngine.CanvasRenderer::get_hasMoved
 UnityEngine.CanvasRenderer::get_absoluteDepth
 UnityEngine.CanvasRenderer::get_materialCount
@@ -126,9 +131,11 @@ UnityEngine.CanvasRenderer::SplitIndicesStreamsInternal
 UnityEngine.CanvasRenderer::SplitUIVertexStreamsInternal
 UnityEngine.CanvasRenderer::set_clippingSoftness_Injected
 UnityEngine.CanvasRenderer::set_cull
+UnityEngine.CanvasRenderer::set_cullTransparentMesh
 UnityEngine.CanvasRenderer::set_hasPopInstruction
 UnityEngine.CanvasRenderer::set_materialCount
 UnityEngine.CanvasRenderer::set_popMaterialCount
+UnityEngine.CanvasRenderer::GetMaterial
 UnityEngine.Component::GetComponentsForListInternal
 UnityEngine.Component::get_gameObject
 UnityEngine.Component::get_transform
@@ -461,7 +468,6 @@ UnityEngine.Quaternion::AngleAxis_Injected
 UnityEngine.Quaternion::Internal_FromEulerRad_Injected
 UnityEngine.Quaternion::Internal_ToEulerRad_Injected
 UnityEngine.Quaternion::Inverse_Injected
-UnityEngine.Random::Range
 UnityEngine.RectOffset::get_bottom
 UnityEngine.RectOffset::get_horizontal
 UnityEngine.RectOffset::get_left
@@ -558,6 +564,8 @@ UnityEngine.Sprite::get_associatedAlphaSplitTexture
 UnityEngine.Sprite::get_texture
 UnityEngine.Sprite::get_uv
 UnityEngine.Sprite::get_vertices
+UnityEngine.SpriteRenderer::get_color_Injected
+UnityEngine.SpriteRenderer::set_color_Injected
 UnityEngine.SystemInfo::HasRenderTextureNative
 UnityEngine.SystemInfo::IsFormatSupported
 UnityEngine.SystemInfo::SupportsTextureFormatNative
@@ -566,6 +574,16 @@ UnityEngine.SystemInfo::GetMaxTextureSize
 UnityEngine.SystemInfo::GetCompatibleFormat
 UnityEngine.SystemInfo::GetGraphicsFormat
 UnityEngine.SystemInfo::GetOperatingSystemFamily
+UnityEngine.Terrain::get_allowAutoConnect
+UnityEngine.Terrain::get_groupingID
+UnityEngine.Terrain::SetNeighbors
+UnityEngine.Terrain::get_terrainData
+UnityEngine.Terrain::get_activeTerrains
+UnityEngine.TerrainData::GetBoundaryValue
+UnityEngine.TerrainData::GetAlphamapResolutionInternal
+UnityEngine.TerrainData::Internal_Create
+UnityEngine.TerrainData::get_size_Injected
+UnityEngine.TerrainData::get_users
 UnityEngine.TextAsset::get_bytes
 UnityEngine.TextCore.LowLevel.FontEngine::TryAddGlyphToTexture_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::TryAddGlyphsToTexture_Internal
@@ -616,7 +634,6 @@ UnityEngine.Texture2DArray::Internal_CreateImpl
 UnityEngine.Texture2DArray::get_isReadable
 UnityEngine.Texture3D::Internal_CreateImpl
 UnityEngine.Texture3D::get_isReadable
-UnityEngine.Time::get_frameCount
 UnityEngine.Time::get_deltaTime
 UnityEngine.Time::get_realtimeSinceStartup
 UnityEngine.Time::get_time

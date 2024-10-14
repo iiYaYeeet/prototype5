@@ -10,6 +10,7 @@ public class daynight : MonoBehaviour
     public ParticleSystem stars;
     public Material star;
     public float timeofday, daytimeframe;
+    public bool day;
 
     public void Start()
     {
@@ -17,6 +18,7 @@ public class daynight : MonoBehaviour
         var color = star.color;
         color.a = 0;
         star.color = color;
+        storemanager.God.time = this;
     }
 
     public void FixedUpdate()
@@ -60,7 +62,9 @@ public class daynight : MonoBehaviour
             var color = star.color;
             color.a += 0.05f;
             star.color = color;
+            yield return new WaitForFixedUpdate();
         }
+        day = false;
     }
     public IEnumerator sunrise()
     {
@@ -82,6 +86,8 @@ public class daynight : MonoBehaviour
             var color = star.color;
             color.a -= 0.1f;
             star.color = color;
+            yield return new WaitForFixedUpdate();
         }
+        day = true;
     }
 }

@@ -12,7 +12,7 @@ public class playercont : MonoBehaviour
 {
     //comps
     public Rigidbody RB;
-    //public CanvasGroup cg;
+    public CanvasGroup cg;
     //public AudioSource AS;
     //public AudioClip AC;
     //floats
@@ -28,14 +28,16 @@ public class playercont : MonoBehaviour
     public Vector3 camPos;
     public Vector3 restPosition;
     public GameObject helmpos;
-    public GameObject sailpos,sailpos2;
-    public GameObject helm, sail, anchor;
+    public GameObject sailpos,sailpos2,sailpos3,sailpos4;
+    public GameObject anchor;
+    public Transform targ;
     //bools
     public bool moving;
-    public bool inshop=false;
     public bool onhelm = false;
     public bool onsail = false;
     public bool onsail2 = false;
+    public bool onsail3 = false;
+    public bool onsail4 = false;
     public bool anchordown = false;
     public bool cooled = true;
     
@@ -48,7 +50,7 @@ public class playercont : MonoBehaviour
 
     void Update()
     {
-        if (onhelm == false && onsail == false && onsail2 == false)
+        if (onhelm == false && onsail == false && onsail2 == false && onsail3 == false && onsail4 == false)
         {
             //movement
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) ||
@@ -73,43 +75,39 @@ public class playercont : MonoBehaviour
                 camPos = newPosition;
             }
         }
-
-        if (inshop == false)
+        Eyes.transform.localPosition = camPos;
+        if (timer > Mathf.PI *
+            2) //completed a full cycle on the unit circle. Reset to 0 to avoid bloated values.
         {
-            Eyes.transform.localPosition = camPos;
-            if (timer > Mathf.PI *
-                2) //completed a full cycle on the unit circle. Reset to 0 to avoid bloated values.
-            {
-                timer = 0;
-            }
-
-            //get mousexy
-            float xRot = Input.GetAxis("Mouse X") * MouseSensitivity;
-            float yRot = -Input.GetAxis("Mouse Y") * MouseSensitivity;
-            //horrot
-            transform.Rotate(0, xRot, 0);
-            //get rot
-            Vector3 Prot = Eyes.transform.localRotation.eulerAngles;
-            //add change to rot
-            Prot.x += yRot;
-            //if's
-            if (Prot.x < -180)
-            {
-                Prot.x += 360;
-            }
-
-            if (Prot.x > 180)
-            {
-                Prot.x -= 360;
-            }
-
-            //clamp minmax
-            Prot = new Vector3(Mathf.Clamp(Prot.x, -65, 40), 0, 0);
-            //plug back in
-            Eyes.transform.localRotation = Quaternion.Euler(Prot);
+            timer = 0;
         }
 
-        if (WalkSpeed > 0 && onhelm == false && onsail == false && onsail2 == false)
+        //get mousexy
+        float xRot = Input.GetAxis("Mouse X") * MouseSensitivity;
+        float yRot = -Input.GetAxis("Mouse Y") * MouseSensitivity;
+        //horrot
+        transform.Rotate(0, xRot, 0);
+        //get rot
+        Vector3 Prot = Eyes.transform.localRotation.eulerAngles;
+        //add change to rot
+        Prot.x += yRot;
+        //if's
+        if (Prot.x < -180)
+        {
+            Prot.x += 360;
+        }
+
+        if (Prot.x > 180)
+        {
+            Prot.x -= 360;
+        }
+
+        //clamp minmax
+        Prot = new Vector3(Mathf.Clamp(Prot.x, -65, 40), 0, 0);
+        //plug back in
+        Eyes.transform.localRotation = Quaternion.Euler(Prot);
+
+        if (WalkSpeed > 0 && onhelm == false && onsail == false && onsail2 == false && onsail3 == false && onsail4 == false)
         {
             //set 0
             Vector3 move = Vector3.zero;
@@ -171,6 +169,26 @@ public class playercont : MonoBehaviour
                 StartCoroutine(cd());
             }
         }
+        
+        if (onsail3==true)
+        {
+            transform.position = sailpos3.transform.position;
+            if (Input.GetKeyDown(KeyCode.E)&& cooled)
+            {
+                onsail3 = false;
+                cooled = false;
+                StartCoroutine(cd());
+            }
+        }
+        else if (Vector3.Distance(sailpos3.transform.position, transform.position) < 0.5f && cooled)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                onsail3 = true;
+                cooled = false;
+                StartCoroutine(cd());
+            }
+        }
         if (onsail2==true)
         {
             transform.position = sailpos2.transform.position;
@@ -186,6 +204,25 @@ public class playercont : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 onsail2 = true;
+                cooled = false;
+                StartCoroutine(cd());
+            }
+        }
+        if (onsail4==true)
+        {
+            transform.position = sailpos4.transform.position;
+            if (Input.GetKeyDown(KeyCode.E)&& cooled)
+            {
+                onsail4 = false;
+                cooled = false;
+                StartCoroutine(cd());
+            }
+        }
+        else if (Vector3.Distance(sailpos4.transform.position, transform.position) < 0.5f && cooled)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                onsail4 = true;
                 cooled = false;
                 StartCoroutine(cd());
             }
@@ -211,9 +248,13 @@ public class playercont : MonoBehaviour
             }
         }
 
-        /*if (Vector3.Distance(transform.position, anchor.transform.position) < 1f
+        Eyes.fieldOfView = Input.GetKey(KeyCode.R) ? 20 : 60;
+        Eyes.farClipPlane = Input.GetKey(KeyCode.R) ? 3000 : 1700;
+        if (Vector3.Distance(transform.position, anchor.transform.position) < 1f
             || Vector3.Distance(sailpos2.transform.position, transform.position) < 0.5f 
             || Vector3.Distance(sailpos.transform.position, transform.position) < 0.5f 
+            || Vector3.Distance(sailpos3.transform.position, transform.position) < 0.5f 
+            || Vector3.Distance(sailpos4.transform.position, transform.position) < 0.5f 
             || Vector3.Distance(helmpos.transform.position, transform.position) < 0.5f 
             && onsail==false && onsail2==false && onhelm==false)
         {
@@ -222,20 +263,18 @@ public class playercont : MonoBehaviour
         else
         {
             cg.alpha = 0;
-        }*/
+        }
     }
 
     public void unlock()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        inshop = true;
     }
     public void relock()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        inshop = false;
     }
     public IEnumerator cd()
     {

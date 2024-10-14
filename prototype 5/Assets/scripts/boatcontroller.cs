@@ -34,7 +34,7 @@ public class boatcontroller : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (RB.velocity.magnitude > 75 && anchor==false)
+        if (RB.velocity.magnitude > 50 && anchor==false)
         {
             RB.drag = 5;
         }
@@ -97,7 +97,7 @@ public class boatcontroller : MonoBehaviour
         sail2.transform.localScale =
             new Vector3(saildepth2 / 2 + 0.1f, sail2.transform.localScale.y, saildepth2 / 3 + 0.1f);
         sail3.transform.localScale =
-            new Vector3(saildepth / 3 +0.5f, saildepth / 3 + 0.75f, saildepth / 3 + 0.2f);
+            new Vector3(saildepth2 / 3 +0.5f, saildepth2 / 3 + 0.75f, saildepth2 / 3 + 0.2f);
         if (sailsdown && anchor==false)
         {
             float sails = (saildepth+saildepth2) * 6;
@@ -132,12 +132,34 @@ public class boatcontroller : MonoBehaviour
             if (Input.GetKey(KeyCode.S))
             {
                 saildepth += 1.5f*Time.deltaTime;
-                saildepth2 += 2f*Time.deltaTime;
             }
 
             if (Input.GetKey(KeyCode.W))
             {
                 saildepth -= 0.65f*Time.deltaTime;
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                sailas.PlayOneShot(sailraisead);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                sailas.PlayOneShot(saildropad);
+            }
+            if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.W))
+            {
+                sailas.Stop();
+            }
+        }
+        if (storemanager.God.PC.onsail3 || storemanager.God.PC.onsail4)
+        {
+            if (Input.GetKey(KeyCode.S))
+            {
+                saildepth2 += 2f*Time.deltaTime;
+            }
+
+            if (Input.GetKey(KeyCode.W))
+            {
                 saildepth2 -= 0.65f*Time.deltaTime;
             }
             if (Input.GetKeyDown(KeyCode.W))
